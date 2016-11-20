@@ -1,0 +1,15 @@
+<hr />
+<table class="table">
+    <tr>
+        <th>Name</th>
+        <th>Pass</th>
+        <th>Email</th>
+    </tr>
+    <?php foreach ($users as $user): ?>
+    <tr>
+        <td><?= $this->escapeHtml($user->getUsrName()) ?></td>
+        <td><?= $this->escapeHtml($user->getUsrPassword()) ?></td>
+        <td><?= $this->escapeHtml($user->getUsrEmail()) ?></td>
+    </tr>
+    <?php endforeach; ?>
+</table>

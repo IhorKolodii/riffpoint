@@ -2,18 +2,8 @@
 
 namespace Admin;
 
-use Zend\Mvc\ModuleRouteListener;
-use Zend\Mvc\MvcEvent;
-
 class Module
 {
-    public function onBootstrap(MvcEvent $e)
-    {
-        $eventManager        = $e->getApplication()->getEventManager();
-        $moduleRouteListener = new ModuleRouteListener();
-        $moduleRouteListener->attach($eventManager);
-    }
-
     public function getConfig()
     {
         return include __DIR__ . '/config/module.config.php';
@@ -27,6 +17,20 @@ class Module
                     __NAMESPACE__ => __DIR__ . '/src/' . __NAMESPACE__,
                 ),
             ),
+        );
+    }
+    
+    public function getServiceConfig()
+    {
+        return array(
+            'factories' => array(
+                'Admin\Service\IsExistValidator' => function ($serviceManager) {
+                    $entityManager = $serviceManager->get('Doctrine\ORM\EntityManager');
+                    $repository = $entityManager->getRepository('Users\Entity\User');
+            
+                    return new \Admin\Service\IsExistValidator($repository);
+                }
+            )
         );
     }
 }

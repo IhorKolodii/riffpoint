@@ -1,0 +1,26 @@
+<?= $this->messages; ?>
+
+<?php 
+
+$user = $this->identity();
+
+if (empty($user)) {
+    $form = $this->form;
+    $form->prepare();
+    
+    echo $this->form()->openTag($form);
+    echo $this->formRow($form->get('usrName'));
+    echo $this->formRow($form->get('usrPassword'));
+    echo $this->formSubmit($form->get('submit'));
+    echo $this->form()->closeTag();
+    
+    echo 'Not entered';
+?>
+<br /><a href="<?= $this->url('auth-doctrine/default', array('controller' => 'index', 'action' => 'register')) ?>">Register</a>
+         
+<?php
+} else {
+    echo 'Authorized as ' . $this->escapeHtml($user->getUsrName());
+?>
+<br /><a href="<?= $this->url('auth-doctrine/default', array('controller' => 'index', 'action' => 'logout')) ?>">Logout</a>
+<?php } ?>

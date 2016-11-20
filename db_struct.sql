@@ -1,0 +1,10 @@
+CREATE TABLE `user` (
+	`id` INT(11) NOT NULL AUTO_INCREMENT,
+	`usr_name` VARCHAR(100) NOT NULL,
+	`usr_password` VARCHAR(100) NOT NULL,
+	`usr_email` VARCHAR(60) NOT NULL,
+	`usr_password_salt` VARCHAR(100) DEFAULT NULL,
+	`usr_registration_date` DATETIME DEFAULT NULL,
+	PRIMARY KEY(`id`),
+	UNIQUE KEY `UNIQ_123` (`usr_name`)
+)	ENGINE = INNODB AUTO_INCREMENT = 1 DEFAULT CHARSET = utf8;

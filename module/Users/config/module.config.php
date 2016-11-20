@@ -15,14 +15,11 @@ return array(
                     ),
                 ),
             ),
-            // The following is a route to simplify getting started creating
-            // new controllers and actions without needing to create a new
-            // module. Simply drop new controllers in, and you can access them
-            // using the path /application/:controller/:action
+
             'users' => array(
                 'type'    => 'Literal',
                 'options' => array(
-                    'route'    => '/users',
+                    'route'    => '/users/',
                     'defaults' => array(
                         '__NAMESPACE__' => 'Users\Controller',
                         'controller'    => 'Index',
@@ -34,7 +31,7 @@ return array(
                     'default' => array(
                         'type'    => 'Segment',
                         'options' => array(
-                            'route'    => '/[:controller[/:action]]',
+                            'route'    => '[:controller/[:action/]]',
                             'constraints' => array(
                                 'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
                                 'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
@@ -70,6 +67,9 @@ return array(
         'invokables' => array(
             'Users\Controller\Index' => Controller\IndexController::class
         ),
+        'factories' => array(
+            'Users\Controller\Base'  => 'Users\Controller\Factory\BaseControllerFactory',
+        )
     ),
     'view_manager' => array(
         'display_not_found_reason' => true,
@@ -85,6 +85,19 @@ return array(
         ),
         'template_path_stack' => array(
             __DIR__ . '/../view',
+        ),
+    ),
+    'doctrine' => array(
+        'driver' => array(
+            'users_entity' => array(
+                'class' =>'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
+                'paths' => array(__DIR__ . '/../src/Users/Entity')
+            ),
+            'orm_default' => array(
+                'drivers' => array(
+                    'Users\Entity' => 'users_entity',
+                )
+            )
         ),
     ),
 );
