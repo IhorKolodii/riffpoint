@@ -7,6 +7,7 @@ use Users\Controller\BaseController as BaseController;
 use Users\Entity\User;
 use DoctrineORMModule\Form\Annotation\AnnotationBuilder;
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject as DoctrineHydrator;
+use Zend\Mail\Message;
 
 class IndexController extends BaseController
 {
@@ -151,6 +152,12 @@ class IndexController extends BaseController
     
     protected function sendConfirmationEmail($user)
     {
-        
+        $message = new Message();
+        $message->setEncoding('UTF-8');
+        $message->addTo($user->getUsrEmail())
+                ->addFrom('s.dice.service@gmail.com')
+                ->setSubject('Register on dating portal')
+                ->setBody("Your registration on dating portal is successful. Please confirm your registration: http://localhost/users/");
+        $this->mailTransport->send($message);
     }
 }
